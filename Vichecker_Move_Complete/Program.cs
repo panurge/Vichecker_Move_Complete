@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Diagnostics;
 using System.Net.Mail;
+using System.Text.RegularExpressions;
 
 namespace Vichecker_Move_Complete
 {
@@ -44,13 +45,17 @@ namespace Vichecker_Move_Complete
             string someArrows = new string(new char[] { '\u2190', '\u2191', '\u2192', '\u2193' });
             message.Body += Environment.NewLine + someArrows;
             message.BodyEncoding = System.Text.Encoding.UTF8;
-            message.Subject = "test message 1" + someArrows;
+            message.Subject = args[0] + someArrows;
             message.SubjectEncoding = System.Text.Encoding.UTF8;
             client.Send(message);
             client.Dispose();
             message.Dispose();
             DirSearch2(@"\\wlsnews-nas01\Vantage\Vidchecker\as11");
             Debug.WriteLine("Goodbye.");
+
+            string S4Cpattern1 = @"^[iI]";
+            Match m = Regex.Match(args[0], S4Cpattern1, RegexOptions.IgnoreCase);
+            if (m.Success) { }
         }
 
         static void DirSearch2(string sDir)
